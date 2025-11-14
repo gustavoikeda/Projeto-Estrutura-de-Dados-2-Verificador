@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.Comparator;
+
 public class ArvoreAVL{
     NoAVL raiz;
     int rotacoes;
@@ -7,8 +10,20 @@ public class ArvoreAVL{
         this.rotacoes = 0;
     }
 
+    public int getRotacoes() {
+        return rotacoes;
+    }
+
     public void inserir(Resultado resultado){
         raiz = inserirRec(raiz, resultado);
+    }
+
+    public int altura(NoAVL no){
+        if(no == null)
+        {
+            return 0;
+        }
+        return no.altura;
     }
 
     public NoAVL inserirRec(NoAVL no, Resultado resultado){
@@ -62,14 +77,6 @@ public class ArvoreAVL{
 
     }
 
-    public int altura(NoAVL no){
-        if(no == null)
-        {
-            return 0;
-        }
-        return no.altura;
-    }
-
     public int Fator_Balenceamento(NoAVL no){
         if(no == null)
         {
@@ -114,14 +121,83 @@ public class ArvoreAVL{
         if (no != null) {
             exibirEmOrdem(no.esq);
             System.out.println("Similaridade: " + no.valor);
-            for (Resultado r : no.documentos_similaridade_iguais) {
+            for (Resultado r : no.documentos_similaridade_iguais)
+            {
                 System.out.println("   " + r);
             }
             exibirEmOrdem(no.dir);
         }
     }
 
-    public int getRotacoes() {
-        return rotacoes;
+    public void exibir_maior_limiar(double limiar){
+        exibir_maior_limiar(limiar, raiz);
     }
+
+    public void exibir_maior_limiar(double limiar, NoAVL no){
+        if(no != null)
+        {
+            exibir_maior_limiar(limiar, no.esq);
+            if(no.valor > limiar){
+                System.out.println("Documentos maiores que " + limiar );
+                for(Resultado r : no.documentos_similaridade_iguais)
+                {
+                    System.out.println("  " + r);
+                }
+            }
+            exibir_maior_limiar(limiar, no.dir);
+        }
+    }
+
+    public void exibir_dois_arquivos(String doc1, String doc2){
+        Resultado resultado = getResultado(raiz, doc1, doc2);
+        if(resultado != null)
+        {
+            System.out.println("Similaridade entre " + doc1 + " e " + doc2 + " "+resultado.similaridade);
+        }
+        else
+        {
+            System.out.println("Nenhum resultado encontrado");
+        }
+    }
+
+   public Resultado getResultado(NoAVL no, String doc1, String doc2){
+        if(no == null)
+        {
+            return null;
+        }
+
+        Resultado esquerda = getResultado(no.esq, doc1, doc2);
+        for(Resultado r : no.documentos_similaridade_iguais)
+        {
+            if(r.documento1.equals(doc1) && r.documento2.equals(doc2) || r.documento1.equals(doc2) && r.documento2.equals(doc1))
+            {
+                return r;
+            }
+        }
+
+        return getResultado(no.dir, doc1, doc2);
+   }
+
+    public void exibirTopKProximos(double limiar, int k) {
+        ArrayList<Resultado> todos_resultados = new ArrayList<>();
+        coletarResultados(raiz, todos_resultados);
+
+        todos_resultados.sort(Comparator.comparingDouble(r -> Math.abs(r.similaridade - limiar)));
+
+        System.out.println("Top " + k + " pares mais próximos de " + limiar + ":");
+        int limite = Math.min(k, todos_resultados.size());
+        for (int i = 0; i < limite; i++) {
+            Resultado r = todos_resultados.get(i);
+            System.out.printf("  (%.4f) %s - %s%n", r.similaridade, r.documento1, r.documento2);
+        }
+    }
+
+
+    private void coletarResultados(NoAVL no, ArrayList<Resultado> lista) {
+        if (no == null) return;
+        coletarResultados(no.esq, lista);
+        lista.addAll(no.documentos_similaridade_iguais);
+        coletarResultados(no.dir, lista);
+    }
+
 }
