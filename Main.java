@@ -39,37 +39,6 @@ public class Main
         arvore.exibirTopKProximos(42, 3);
         System.out.println("Rotações realizadas: " + arvore.getRotacoes());*/
 
-        Documento dc = new Documento("C:\\Users\\User\\IdeaProjects\\Verificador\\src\\testando");
-        dc.processar("C:\\Users\\User\\IdeaProjects\\Verificador\\src\\testando");
-        Hash n = dc.tabela_hash;
-
-        Documento dc2 = new Documento("C:\\Users\\User\\IdeaProjects\\Verificador\\src\\testing");
-        dc2.processar("C:\\Users\\User\\IdeaProjects\\Verificador\\src\\testing");
-        Hash n2 = dc2.tabela_hash;
-
-        Documento dc3 = new Documento("C:\\Users\\User\\IdeaProjects\\Verificador\\src\\Gustavo");
-        dc3.processar("C:\\Users\\User\\IdeaProjects\\Verificador\\src\\Gustavo");
-        Hash n3 = dc3.tabela_hash;
-
-        Documento dc4 = new Documento("C:\\Users\\User\\IdeaProjects\\Verificador\\src\\Jiye");
-        dc4.processar("C:\\Users\\User\\IdeaProjects\\Verificador\\src\\Jiye");
-        Hash n4 = dc4.tabela_hash;
-
-        Comparador c = new Comparador(dc.documento, dc2.documento);
-        double x = c.Cosseno(dc, dc2);
-        System.out.println(x);
-
-        Comparador c2 = new Comparador(dc3.documento, dc4.documento);
-        double y = c.Cosseno(dc3, dc4);
-        System.out.println(y);
-
-        Resultado res = new Resultado(dc.documento, dc2.documento, x);
-
-        Resultado res2 = new Resultado(dc3.documento, dc4.documento, y);
-
-        ArvoreAVL ar = new ArvoreAVL();
-        ar.inserir(res);
-        ar.inserir(res2);
-        ar.exibirEmOrdem();
+        
     }
 }
