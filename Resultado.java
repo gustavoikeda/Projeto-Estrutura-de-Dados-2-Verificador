@@ -1,9 +1,9 @@
 public class Resultado {
-    float similaridade;
+    double similaridade;
     String documento1;
     String documento2;
 
-    public Resultado(float similaridade, String documento1, String documento2){
+    public Resultado(String documento1, String documento2, double similaridade){
         this.similaridade = similaridade;
         this.documento1 = documento1;
         this.documento2 = documento2;
