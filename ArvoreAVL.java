@@ -166,7 +166,7 @@ public class ArvoreAVL{
             return null;
         }
 
-        Resultado esquerda = getResultado(no.esq, doc1, doc2);
+        Resultado esquerda = getResultado(no.esq, doc1, doc2); //tirar esquerda
         for(Resultado r : no.documentos_similaridade_iguais)
         {
             if(r.documento1.equals(doc1) && r.documento2.equals(doc2) || r.documento1.equals(doc2) && r.documento2.equals(doc1))
